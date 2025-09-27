@@ -1,0 +1,458 @@
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAJID ALAM ❤️ </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+            overflow: hidden;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            cursor: none;
+        }
+
+        #container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #heart-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            filter: drop-shadow(0 0 40px rgba(255, 20, 147, 0.7));
+            z-index: 10;
+        }
+
+        .heart-piece {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: path("M200,100 C100,0 0,100 200,300 C400,100 300,0 200,100");
+            background: linear-gradient(135deg, #ff1493 0%, #ff6b9d 50%, #ff1493 100%);
+            opacity: 0.9;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .heart-glow {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            background: radial-gradient(circle, rgba(255,20,147,0.4) 0%, rgba(255,20,147,0) 70%);
+            border-radius: 50%;
+            animation: pulse 4s infinite alternate;
+            z-index: -1;
+        }
+
+        #text-container {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            text-align: center;
+        }
+
+        #sajid-text {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #a300d5, #b000e5, #3016f3);`````
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(255, 20, 147, 0.7);
+            letter-spacing: 2px;
+            animation: textGlow 3s infinite alternate;
+            margin-bottom: 10px;
+        }
+
+        #heart-emoji {
+            font-size: 3rem;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.9));
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ff1493;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,20,147,0.3) 0%, rgba(255,20,147,0) 70%);
+            filter: blur(10px);
+            animation: float 15s infinite linear;
+        }
+
+        #custom-cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,20,147,0.8) 0%, rgba(255,20,147,0) 70%);
+            pointer-events: none;
+            z-index: 1000;
+            mix-blend-mode: screen;
+            transition: transform 0.1s ease-out;
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes textGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+                transform: scale(1);
+            }
+            100% {
+                text-shadow: 0 0 40px rgba(255, 20, 147, 1);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            5% {
+                transform: scale(1.3);
+            }
+            10% {
+                transform: scale(1.1);
+            }
+            15% {
+                transform: scale(1.4);
+            }
+            50% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000%) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <canvas id="particle-canvas"></canvas>
+        
+        <div class="floating-element" style="top: 10%; left: 15%; animation-duration: 20s;"></div>
+        <div class="floating-element" style="top: 20%; left: 80%; animation-duration: 25s; animation-delay: -5s;"></div>
+        <div class="floating-element" style="top: 70%; left: 10%; animation-duration: 18s; animation-delay: -10s;"></div>
+        <div class="floating-element" style="top: 80%; left: 70%; animation-duration: 22s; animation-delay: -15s;"></div>
+        
+        <div id="heart-container">
+            <div class="heart-glow"></div>
+            <div class="heart-piece" id="heart-main"></div>
+        </div>
+        
+        <div id="text-container">
+            <div id="sajid-text">SAJID ALAM</div>
+            <div id="heart-emoji">💖</div>
+        </div>
+        
+        <div id="custom-cursor"></div>
+    </div>
+
+    <script>
+        // Custom cursor with trail effect
+        const cursor = document.getElementById('custom-cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function updateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            
+            cursor.style.left = cursorX - 15 + 'px';
+            cursor.style.top = cursorY - 15 + 'px';
+            
+            // Create cursor trail particles
+            if (Math.random() > 0.7) {
+                createParticle(cursorX, cursorY);
+            }
+            
+            requestAnimationFrame(updateCursor);
+        }
+        
+        updateCursor();
+        
+        // Particle system
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 4 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = `rgba(255, 20, 147, ${Math.random() * 0.5 + 0.2})`;
+                this.life = 100;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life--;
+                this.size *= 0.97;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+        
+        function createParticle(x, y) {
+            particles.push(new Particle(x, y));
+        }
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                if (particles[i].life <= 0 || particles[i].size <= 0.5) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            
+            // Create ambient particles
+            if (Math.random() > 0.9) {
+                createParticle(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height
+                );
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+        
+        animateParticles();
+        
+        // Heart interaction and animation
+        const heart = document.getElementById('heart-main');
+        const heartContainer = document.getElementById('heart-container');
+        const textContainer = document.getElementById('text-container');
+        
+        // Heartbeat animation
+        gsap.to(heartContainer, {
+            scale: 1.05,
+            duration: 0.8,
+            repeat: -1,
+            yoyo: true,
+            ease: "power2.inOut"
+        });
+        
+        // Text animation
+        gsap.fromTo("#sajid-text", 
+            { y: 70, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1.5, ease: "back.out(1.7)", delay: 0.5 }
+        );
+        
+        gsap.fromTo("#heart-emoji", 
+            { scale: 0, rotation: -180 },
+            { scale: 1, rotation: 0, duration: 1, ease: "elastic.out(1, 0.5)", delay: 1 }
+        );
+        
+        // Interactive effects
+        document.addEventListener('mousemove', (e) => {
+            const { clientX: x, clientY: y } = e;
+            const { innerWidth: width, innerHeight: height } = window;
+            
+            const moveX = (x - width / 2) * 0.01;
+            const moveY = (y - height / 2) * 0.01;
+            
+            gsap.to(heartContainer, {
+                x: moveX,
+                y: moveY,
+                duration: 1,
+                ease: "power2.out"
+            });
+            
+            gsap.to(textContainer, {
+                x: moveX * 0.5,
+                y: moveY * 0.5,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+        
+        // Click effect
+        heartContainer.addEventListener('click', (e) => {
+            // Ripple effect
+            const ripple = document.createElement('div');
+            ripple.style.position = 'absolute';
+            ripple.style.width = '100px';
+            ripple.style.height = '100px';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'radial-gradient(circle, rgba(255,20,147,0.5) 0%, rgba(255,20,147,0) 70%)';
+            ripple.style.left = e.offsetX - 50 + 'px';
+            ripple.style.top = e.offsetY - 50 + 'px';
+            ripple.style.pointerEvents = 'none';
+            heartContainer.appendChild(ripple);
+            
+            gsap.to(ripple, {
+                width: '300px',
+                height: '300px',
+                opacity: 0,
+                duration: 1,
+                ease: "power2.out",
+                onComplete: () => ripple.remove()
+            });
+            
+            // Create burst of particles
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createParticle(
+                        e.clientX + (Math.random() - 0.5) * 100,
+                        e.clientY + (Math.random() - 0.5) * 100
+                    );
+                }, i * 20);
+            }
+            
+            // Heart pulse effect
+            gsap.to(heartContainer, {
+                scale: 1.2,
+                duration: 0.2,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.inOut"
+            });
+        });
+        
+        // Floating elements animation
+        const floatingElements = document.querySelectorAll('.floating-element');
+        floatingElements.forEach((el, i) => {
+            gsap.to(el, {
+                rotation: 360,
+                duration: 20 + i * 5,
+                repeat: -1,
+                ease: "none"
+            });
+        });
+        
+        // Parallax scroll effect (if content exceeds viewport)
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -1.5;
+            
+            gsap.to(heartContainer, {
+                y: rate * 0.3,
+                duration: 0.5,
+                ease: "power2.out"
+            });
+            
+            gsap.to(textContainer, {
+                y: rate * 0.7,
+                duration: 0.5,
+                ease: "power2.out"
+            });
+        });
+        
+        // Initial animation sequence
+        window.addEventListener('load', () => {
+            // Initial particles burst
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    createParticle(
+                        Math.random() * canvas.width,
+                        Math.random() * canvas.height
+                    );
+                }, i * 10);
+            }
+            
+            // Heart entrance animation
+            gsap.fromTo(heartContainer, 
+                { scale: 0, rotation: -180 },
+                { scale: 1, rotation: 0, duration: 1.5, ease: "elastic.out(1, 0.5)" }
+            );
+        });
+    </script>
+</body>
+</html>
